@@ -1,0 +1,107 @@
+{
+  "nome_completo": "--",
+  "idade": "--",
+  "pessoal": {
+    "fumante": "Não",
+    "estado_civil": "--",
+    "naturalidade": "--",
+    "filhos": "--",
+    "saúde": "Ótima",
+    "religião": "--",
+    "cônjuge": "------------------------------"
+  },
+  "documentos": {
+    "rg": "--",
+    "data_expedição": "--",
+    "cpf": "--",
+    "pis": "--",
+    "carteira_nº": "--",
+    "série": "--"
+  },
+  "endereco": {
+    "rua": "--",
+    "numero": "--",
+    "bairro": "--",
+    "cidade": "--",
+    "tempo_de_residência": "--"
+  },
+  "contato": {
+    "tem_telefone": false,
+    "telefone_pessoal": null,
+    "telefones_recado": []
+  },
+  "educacao": {
+    "escolaridade": "--"
+  },
+  "profissional": {
+    "profissão": "------------------------------",
+    "cargo_desejado": "--",
+    "habilitação": "--",
+    "pretensão_salarial": "R$",
+    "último_salário": "R$",
+    "disponível_aos_sábados": "--"
+  },
+  "obs": "Excelentes referencias da profissional ,",
+  "referencias_profissionais": [
+    {
+      "indice": "1",
+      "nome": "--",
+      "local_de_trabalho": "--",
+      "telefones": "(19) 9",
+      "periodo": "--",
+      "cargo": "--",
+      "obs": "--",
+      "tarefas_exercidas": "--"
+    },
+    {
+      "indice": "2",
+      "nome": "--",
+      "local_de_trabalho": "--",
+      "telefones": "(19) 9",
+      "periodo": "--",
+      "cargo": "--",
+      "obs": "--",
+      "tarefas_exercidas": "--"
+    },
+    {
+      "indice": "3",
+      "nome": "--",
+      "local_de_trabalho": "--",
+      "telefones": "(19) 9",
+      "periodo": "--",
+      "cargo": "--",
+      "obs": "--",
+      "tarefas_exercidas": "--"
+    },
+    {
+      "indice": "4",
+      "nome": "--",
+      "local_de_trabalho": "--",
+      "telefones": "(19) 9",
+      "periodo": "--",
+      "cargo": "--",
+      "obs": "--",
+      "tarefas_exercidas": "--"
+    },
+    {
+      "indice": "5",
+      "nome": "--",
+      "local_de_trabalho": "--",
+      "telefones": "(19) 9",
+      "periodo": "--",
+      "cargo": "--",
+      "obs": "--",
+      "tarefas_exercidas": "--"
+    },
+    {
+      "indice": "6",
+      "nome": "--",
+      "local_de_trabalho": "--",
+      "telefones": "(19) 9",
+      "periodo": "--",
+      "cargo": "--",
+      "obs": "--",
+      "tarefas_exercidas": "--"
+    }
+  ]
+}

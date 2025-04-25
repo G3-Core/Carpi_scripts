@@ -9,15 +9,15 @@ const pastaBase = 'H:/Meu Drive/Carpi/Cadastros/5. Cadastros Antigos de Funcion�
 function obterArquivosNaPasta(pasta, limitePastas = 2) {
   let arquivos = [];
   let pastasEncontradas = 0;
-  
+
   // Ler o conteúdo da pasta
   const itens = fs.readdirSync(pasta);
-  
+
   // Filtra apenas arquivos e subpastas
   itens.forEach(item => {
     const caminhoItem = path.join(pasta, item);
     const stats = fs.statSync(caminhoItem);
-    
+
     if (stats.isDirectory() && pastasEncontradas < limitePastas) {
       // Incrementa o contador de pastas encontradas
       pastasEncontradas++;
@@ -32,27 +32,20 @@ function obterArquivosNaPasta(pasta, limitePastas = 2) {
 }
 
 // Função para encontrar o arquivo com a versão mais recente
-function obterArquivoMaisRecente(arquivos) {
-  let arquivoMaisRecente = null;
-  let maiorVersao = 0;
+function obterarquivoFichaCompleta(arquivos) {
+  let arquivoFichaCompleta = null; // arquivoFichaCompleta contém os telefones para contato 
 
   arquivos.forEach(arquivo => {
     const nomeArquivo = path.basename(arquivo);
-    
-    // Procurar a versão romana no nome do arquivo
-    const match = nomeArquivo.match(/\( (I|II|III|IV|V|VI|VII|VIII|IX|X) \)/);
+
+    // Procurar a versão romana "I" no nome do arquivo
+    const match = nomeArquivo.match(/\( I \)/);
     if (match) {
-      const versao = match[1];
-      const versaoNumerica = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'].indexOf(versao) + 1;
-      
-      if (versaoNumerica > maiorVersao) {
-        maiorVersao = versaoNumerica;
-        arquivoMaisRecente = arquivo;
-      }
+      arquivoFichaCompleta = arquivo;
     }
   });
 
-  return arquivoMaisRecente;
+  return arquivoFichaCompleta;
 }
 
 // Função para processar um arquivo Excel e gerar JSON
@@ -67,6 +60,37 @@ function processarArquivoExcel(arquivo) {
   let referenciaAtual = null;
   let modoReferencia = false;
   let ultimaChave = null;
+  const telefones_recado = [];
+  const regexTelefoneNome = /\(?\d{2}\)?\s?\d{4,5}[-\s]?\d{4}.*?(Nome:\s*(.+))?/gi;
+
+  if (dados.telefone_para_recado) {
+    const matches = dados.telefone_para_recado.matchAll(regexTelefoneNome);
+    for (const match of matches) {
+      telefones_recado.push({
+        numero: match[0].match(/\(?\d{2}\)?\s?\d{4,5}[-\s]?\d{4}/)?.[0] || null,
+        nome: match[2]?.trim() || null
+      });
+    }
+  }
+
+  // Caso os outros campos telefone2 até telefone10 também contenham dados brutos de texto
+  for (let i = 2; i <= 10; i++) {
+    const campo = dados[`telefone${i}`];
+    if (campo) {
+      const matches = campo.matchAll(regexTelefoneNome);
+      for (const match of matches) {
+        telefones_recado.push({
+          numero: match[0].match(/\(?\d{2}\)?\s?\d{4,5}[-\s]?\d{4}/)?.[0] || null,
+          nome: match[2]?.trim() || null
+        });
+      }
+    }
+  }
+
+  const telefonePessoalMatch = dados.telefone_pessoal?.match(/\(?\d{2}\)?\s?\d{4,5}[-\s]?\d{4}/);
+  const telefonePessoal = telefonePessoalMatch ? telefonePessoalMatch[0] : null;
+
+  const tem_telefone = Boolean(telefonePessoal || telefones_recado.length > 0);
 
   const ehNovaReferencia = (texto) => /^\d{1,2}°?\s*[-_]\s*nome/i.test(texto);
 
@@ -141,7 +165,10 @@ function processarArquivoExcel(arquivo) {
   if (referenciaAtual) referencias.push(referenciaAtual);
   if (referencias.length) dados["referencias_profissionais"] = referencias;
 
+  console.log(dados);
+
   const numero = dados["n°"] || dados.numero || "";
+
 
   const agrupado = {
     nome_completo: dados.nome_completo,
@@ -170,6 +197,11 @@ function processarArquivoExcel(arquivo) {
       cidade: dados.cidade,
       tempo_de_residência: dados.tempo_de_residência
     },
+    contato: {
+      tem_telefone,
+      telefone_pessoal: telefonePessoal,
+      telefones_recado
+    },
     educacao: {
       escolaridade: dados.escolaridade
     },
@@ -196,12 +228,12 @@ function processarArquivoExcel(arquivo) {
 
 // Função principal para percorrer as pastas e processar arquivos
 function processarArquivos() {
-  const arquivos = obterArquivosNaPasta(pastaBase, 25); // Limite para 2 pastas
+  const arquivos = obterArquivosNaPasta(pastaBase, 2); // Limite para 2 pastas
   arquivos.forEach(arquivo => {
-    const arquivoMaisRecente = obterArquivoMaisRecente([arquivo]);
-    if (arquivoMaisRecente) {
-      console.log(`Processando arquivo: ${arquivoMaisRecente}`);
-      processarArquivoExcel(arquivoMaisRecente);
+    const arquivoFichaCompleta = obterarquivoFichaCompleta([arquivo]);
+    if (arquivoFichaCompleta) {
+      console.log(`Processando arquivo: ${arquivoFichaCompleta}`);
+      processarArquivoExcel(arquivoFichaCompleta);
     }
   });
 }

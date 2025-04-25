@@ -1,0 +1,90 @@
+{
+  "nome_completo": "Abner Carlos de Lima",
+  "idade": "35 anos (22/09/1989)",
+  "pessoal": {
+    "fumante": "Não",
+    "estado_civil": "União Estável",
+    "naturalidade": "Campinas - SP",
+    "filhos": "02 (02/13 anos)",
+    "saúde": "Ótima",
+    "religião": "Cristão",
+    "cônjuge": "Pamela Trindade Luiz"
+  },
+  "documentos": {
+    "rg": "44.942.633-6",
+    "data_expedição": "10/08/2016",
+    "cpf": "364.576.828-98",
+    "pis": "207.39035.457.03",
+    "carteira_nº": "85801",
+    "série": "310-SP"
+  },
+  "endereco": {
+    "rua": "Rua Dom Oscar Romero",
+    "numero": "62",
+    "bairro": "Novo Campos Eliseos",
+    "cidade": "Campinas",
+    "tempo_de_residência": "1 ano ( Casa da Mãe )"
+  },
+  "contato": {
+    "tem_telefone": false,
+    "telefone_pessoal": null,
+    "telefones_recado": []
+  },
+  "educacao": {
+    "escolaridade": "Ensino médio completo"
+  },
+  "profissional": {
+    "profissão": "Doméstica/Cozinheira",
+    "cargo_desejado": "Caseiro / Motorista",
+    "habilitação": "Sim",
+    "categoria": "A [X]  B [X]  OUTRAS []",
+    "veículo_próprio": "Sim",
+    "pretensão_salarial": "R$ 3.000,00",
+    "último_salário": "R$ 2.550,00",
+    "disponibilidade_para_dormir": "Sim",
+    "disponível_aos_sábados": "Sim"
+  },
+  "obs": "Excelente referencia do profissional , cuida muito bem do Jardim , responsavel , solicito , pessoa muito facil de lidar , faz pequenas manutenção de eletrica na casa , reparos de encanamento , pinturas , jardim , piscinas, animais , .",
+  "referencias_profissionais": [
+    {
+      "indice": "1",
+      "nome": "Maira Cardi",
+      "local_de_trabalho": "Cond. Villagio Visconde do Itamaraca - Valinhos",
+      "telefones": "(11) 94856 4323 (Elis governanta)",
+      "periodo": "25/08/2020 a atual",
+      "cargo": "Caseiro   ( Vai e volta )",
+      "obs": "Saindo por falta de registro",
+      "tarefas_exercidas": "Cuida de tudo na area externa da casa, Jardim geral , limpa e faz a manutenção da  piscina , Faz trabalhos de motorista quando necessário, faz hortas , faz orçamentos de mão de obra quando necessario e cuida do lago e das carpas Cuida das galinhas dangola , da garça ,"
+    },
+    {
+      "indice": "2",
+      "nome": "Junior Trindade",
+      "local_de_trabalho": "Chacara Jd Icarai  - Campinas",
+      "telefones": "(19) 99546 0861",
+      "periodo": "11/02/2020 a 18/08/2020",
+      "cargo": "Caseiro",
+      "obs": "Saiu por proposta de trabalho melhor",
+      "tarefas_exercidas": "Trabalhava em chacara de eventos , fazia td na area externa , jardim , piscina , manutenções em geral , pinturas"
+    },
+    {
+      "indice": "3",
+      "nome": "Rafael Osti",
+      "local_de_trabalho": "Chacara Monte Sião - MG",
+      "telefones": "(35) 99250 7778",
+      "periodo": "Fev/2019 a Jan/2020",
+      "cargo": "Free lance de Jardineiro e piscineiro",
+      "obs": "Saiu quando se mudou para Campinas",
+      "tarefas_exercidas": ""
+    },
+    {
+      "indice": "4",
+      "nome": "Rafael Osti",
+      "local_de_trabalho": "Monte Sião - MG",
+      "telefones": "(35) 99250 7778",
+      "periodo": "01/09/2018 a 05/02/2020",
+      "cargo": "Tecelão",
+      "obs": "Saiu em razão de mudança para Campinas",
+      "tarefas_exercidas": "Trabalhava na area de produção de roupas ( Maquina computadorizada )"
+    }
+  ]
+}

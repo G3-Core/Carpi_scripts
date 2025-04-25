@@ -1,0 +1,90 @@
+{
+  "nome_completo": "Pamela Trindade Luiz",
+  "idade": "36 anos (22/07/1988)",
+  "pessoal": {
+    "fumante": "Não",
+    "estado_civil": "União Estável",
+    "naturalidade": "Campinas - SP",
+    "filhos": "02 ( 03/14 anos )",
+    "saúde": "Ótima",
+    "religião": "Cristã",
+    "cônjuge": "Abner Carlos de Lima"
+  },
+  "documentos": {
+    "rg": "48.570.643-X",
+    "data_expedição": "10/08/2016",
+    "cpf": "362.311.518-59",
+    "pis": "20738749243",
+    "carteira_nº": "56378",
+    "série": "356 - SP"
+  },
+  "endereco": {
+    "rua": "Rua Dom Oscar Romero",
+    "numero": "62",
+    "bairro": "Jardim Novo Campos Elísios",
+    "cidade": "Campinas - SP",
+    "tempo_de_residência": "01 ano ( Casa própria )"
+  },
+  "contato": {
+    "tem_telefone": false,
+    "telefone_pessoal": null,
+    "telefones_recado": []
+  },
+  "educacao": {
+    "escolaridade": "Ensino Médio Completo"
+  },
+  "profissional": {
+    "profissão": "Caseiro / Serviços Gerais",
+    "cargo_desejado": "Doméstica / Cozinheira / Baba",
+    "habilitação": "Não",
+    "categoria": "A [ ]  B [  ]  OUTRAS [ ]",
+    "veículo_próprio": "Não",
+    "pretensão_salarial": "À combinar",
+    "último_salário": "R$ 2.300,00",
+    "disponibilidade_para_dormir": "Sim",
+    "disponível_aos_sábados": "Sim"
+  },
+  "obs": "Boas referencias da colaboradora , trabalha bem , responsavel , cozinha muito bem , limpa e organizada Tem transporte próprio",
+  "referencias_profissionais": [
+    {
+      "indice": "1",
+      "nome": "Mayra Cardi",
+      "local_de_trabalho": "Cond. Villagio Visconde do Itamaracá - Valinhos",
+      "telefones": "(19) 99743 8800 ( Adriana Secretária )",
+      "periodo": "08/07/2020 à 04/11/2020",
+      "cargo": "Cozinheira",
+      "obs": "Dispensada por mudaças gerais da casa",
+      "tarefas_exercidas": "Cozinhava, lavava e passava para três pessoas."
+    },
+    {
+      "indice": "2",
+      "nome": "E.B Serviços  Automotivos Ltda",
+      "local_de_trabalho": "Campinas",
+      "telefones": "Registro em Carteira.",
+      "período": "01/07/2010 à 10/12/2010",
+      "cargo": "Auxiliar Administrativo",
+      "obs": "Saída devido oportunidade melhor de trabalho.",
+      "tarefas_exercidas": "Tarefas pertinentes ao cargo administrativo, atuava na empresa Fiat."
+    },
+    {
+      "indice": "3",
+      "nome": "Atto  Recursos humanos Ltda",
+      "local_de_trabalho": "Campinas",
+      "telefones": "Registro em Carteira.",
+      "periodo": "03/11/2011 à 31/08/2013",
+      "cargo": "Auxiliar Administrativo",
+      "obs": "Dispensa em razão de corte de funcionários.",
+      "tarefas_exercidas": "Tarefas pertinentes ao cargo administrativo, atuava no tribunal regional"
+    },
+    {
+      "indice": "4",
+      "nome": "Alpendre Malhas Ltda - ME",
+      "local_de_trabalho": "Monte Sião - MG",
+      "telefones": "Registro em Carteira.",
+      "periodo": "01/08/2017 à 01/04/2019",
+      "cargo": "Ajudante Geral",
+      "obs": "Dispensa após licença maternidade.",
+      "tarefas_exercidas": "Costuras, corte de moldes, embalar produtos, conferência de estoque."
+    }
+  ]
+}
