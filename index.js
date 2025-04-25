@@ -2,75 +2,141 @@ const xlsx = require("xlsx");
 const fs = require("fs");
 const path = require("path");
 
-// Nome do arquivo
 const fileName = "Cadastro ( I ) Abner Carlos de Lima.xlsx";
 const filePath = path.join(__dirname, fileName);
 
-// Lê o arquivo Excel
 const workbook = xlsx.readFile(filePath);
 const sheetName = workbook.SheetNames[0];
 const sheet = workbook.Sheets[sheetName];
 const rows = xlsx.utils.sheet_to_json(sheet, { header: 1 });
 
 let dados = {};
-let observacoesGerais = [];
 let referencias = [];
-let referenciaAtual = {};
+let referenciaAtual = null;
 let modoReferencia = false;
+let ultimaChave = null;
 
+// Funções auxiliares
+const ehNovaReferencia = (texto) => /^\d{1,2}°?\s*[-_]\s*nome/i.test(texto);
+
+function calcularIdade(dataTexto) {
+  const match = dataTexto.match(/\d{2}\/\d{2}\/\d{4}/);
+  if (!match) return dataTexto;
+  const [dia, mes, ano] = match[0].split("/").map(Number);
+  const nascimento = new Date(ano, mes - 1, dia);
+  const hoje = new Date();
+  let idade = hoje.getFullYear() - nascimento.getFullYear();
+  const m = hoje.getMonth() - nascimento.getMonth();
+  if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) idade--;
+  return `${idade} anos (${match[0]})`;
+}
+
+function extrairIndiceReferencia(texto) {
+  const match = texto.match(/^(\d{1,2})°?\s*[-_]/i);
+  return match ? match[1] : null;
+}
+
+// Processa planilha
 for (const row of rows) {
   for (const cell of row) {
     if (!cell || typeof cell !== "string") continue;
-
     const texto = cell.trim();
     if (!texto) continue;
 
-    // Detecta início da seção de referências
     if (texto.toUpperCase().includes("REFERÊNCIA PROFISSIONAL")) {
-      if (Object.keys(referenciaAtual).length) {
-        referencias.push(referenciaAtual);
-        referenciaAtual = {};
-      }
       modoReferencia = true;
       continue;
     }
 
     if (texto.includes(":")) {
       const [rawKey, ...rawValue] = texto.split(":");
-      const chave = rawKey.trim().toLowerCase().replace(/[\s\.]+/g, "_");
+      const chaveOriginal = rawKey.trim();
+      const chaveFormatada = chaveOriginal.toLowerCase().replace(/[\s\.]+/g, "_");
       const valor = rawValue.join(":").trim();
 
-      if (modoReferencia) {
-        referenciaAtual[chave] = valor;
-      } else {
-        dados[chave] = valor;
+      if (!modoReferencia && chaveFormatada === "idade") {
+        dados["idade"] = calcularIdade(valor);
+        ultimaChave = "idade";
+        continue;
       }
-    } else {
-      // Se não tem dois pontos, trata como observação
+
+      ultimaChave = chaveFormatada;
+
       if (modoReferencia) {
-        referenciaAtual.observacoes = (referenciaAtual.observacoes || "") + " " + texto;
+        if (ehNovaReferencia(chaveOriginal)) {
+          if (referenciaAtual) referencias.push(referenciaAtual);
+          referenciaAtual = {};
+          const indice = extrairIndiceReferencia(chaveOriginal);
+          if (indice) referenciaAtual["indice"] = indice;
+          referenciaAtual["nome"] = valor;
+        } else {
+          if (!referenciaAtual) referenciaAtual = {};
+          referenciaAtual[chaveFormatada] = valor;
+        }
       } else {
-        observacoesGerais.push(texto);
+        dados[chaveFormatada] = valor;
+      }
+    } else if (ultimaChave) {
+      if (modoReferencia) {
+        if (!referenciaAtual) referenciaAtual = {};
+        referenciaAtual[ultimaChave] += " " + texto;
+      } else {
+        dados[ultimaChave] += " " + texto;
       }
     }
   }
 }
 
-// Adiciona a última referência, se necessário
-if (Object.keys(referenciaAtual).length) {
-  referencias.push(referenciaAtual);
-}
+if (referenciaAtual) referencias.push(referenciaAtual);
+if (referencias.length) dados["referencias_profissionais"] = referencias;
 
-// Junta observações gerais
-if (observacoesGerais.length) {
-  dados["observacoes_gerais"] = observacoesGerais.join(" ");
-}
+const numero = dados["n°"] || dados.numero || "";
 
-// Junta referências profissionais
-if (referencias.length) {
-  dados["referencias_profissionais"] = referencias;
-}
+// === AGRUPAMENTO POR SIMILARIDADE DEPOIS DO PARSE ===
+const agrupado = {
+  nome_completo: dados.nome_completo,
+  idade: dados.idade,
+  pessoal: {
+    fumante: dados.fumante,
+    estado_civil: dados.estado_civil,
+    naturalidade: dados.naturalidade,
+    filhos: dados.filhos,
+    saúde: dados.saúde,
+    religião: dados.religião,
+    cônjuge: dados.cônjuge
+  },
+  documentos: {
+    rg: dados.rg,
+    data_expedição: dados.data_expedição,
+    cpf: dados.cpf,
+    pis: dados.pis,
+    carteira_nº: dados.carteira_nº,
+    série: dados.série
+  },
+  endereco: {
+    rua: dados.endereço,
+    numero: numero,
+    bairro: dados.bairro,
+    cidade: dados.cidade,
+    tempo_de_residência: dados.tempo_de_residência
+  },
+  educacao: {
+    escolaridade: dados.escolaridade
+  },
+  profissional: {
+    profissão: dados.profissão,
+    cargo_desejado: dados.cargo_desejado,
+    habilitação: dados.habilitação,
+    categoria: dados.categoria,
+    veículo_próprio: dados.veículo_próprio,
+    pretensão_salarial: dados.pretensão_salarial,
+    último_salário: dados.último_salário,
+    disponibilidade_para_dormir: dados.disponibilidade_para_dormir,
+    disponível_aos_sábados: dados.disponível_aos_sábados
+  },
+  obs: dados.obs,
+  referencias_profissionais: dados.referencias_profissionais
+};
 
-// Salva o resultado como JSON
-fs.writeFileSync("saida.json", JSON.stringify(dados, null, 2), "utf8");
+fs.writeFileSync("saida.json", JSON.stringify(agrupado, null, 2), "utf8");
 console.log("Arquivo JSON gerado com sucesso!");
