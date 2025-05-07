@@ -3,7 +3,9 @@ const path = require('path');
 const xlsx = require('xlsx');
 
 // Caminho para a pasta onde estão os arquivos
-const pastaBase = 'H:/Meu Drive/Carpi/Cadastros/5. Cadastros Antigos de Funcionários';
+// const pastaBase = 'H:/Meu Drive/Carpi/Cadastros/5. Cadastros Antigos de Funcionários';
+// const pastaBase = 'H:/Meu Drive/Carpi/Cadastros/Modelo';
+const pastaBase = 'H:/Meu Drive/Carpi/Cadastros/Cadastros completos'
 
 // Função para identificar o arquivo correto com "( I )" no nome
 function obterArquivoFichaCompleta(arquivos) {
@@ -110,14 +112,11 @@ function extrairTelefonesRecado(dados) {
   return telefonesRecado;
 }
 
-// Função para agrupar os dados em categorias lógicas
 function agruparDados(dados) {
-  // Extrair telefones de recado
   const telefonesRecado = extrairTelefonesRecado(dados);
-  
-  // Determinar se tem telefone
+
   const temTelefone = Boolean(dados.telefone_pessoal || telefonesRecado.length > 0);
-  
+
   return {
     nome_completo: dados.nome_completo,
     idade: dados.idade,
@@ -128,7 +127,10 @@ function agruparDados(dados) {
       filhos: dados.filhos,
       saude: dados.sade || dados.saúde,
       religiao: dados.religio || dados.religião,
-      conjuge: dados.cnjuge || dados.cônjuge
+      conjuge: dados.cnjuge || dados.cônjuge,
+      tatuagem: dados.tatuagem,
+      gosta_de_animais: dados.gosta_de_animais,
+      covid19: dados.covid19,
     },
     documentos: {
       rg: dados.rg,
@@ -156,18 +158,21 @@ function agruparDados(dados) {
     profissional: {
       profissao: dados.profisso || dados.profissão,
       cargo_desejado: dados.cargo_desejado,
+      transporte: dados.transporte,
       habilitacao: dados.habilitao || dados.habilitação,
       categoria: dados.categoria,
       veiculo_proprio: dados.veculo_prprio || dados.veículo_próprio,
-      pretensao_salarial: dados.pretenso_salarial || dados.pretensão_salarial,
       ultimo_salario: dados.ltimo_salrio || dados.último_salário,
-      disponibilidade_para_dormir: dados.disponibilidade_para_dormir,
-      disponivel_aos_sabados: dados.disponvel_aos_sbados || dados.disponível_aos_sábados
+      pretensao_salarial: dados.pretenso_salarial || dados.pretensão_salarial,
+      disponibilidade_para_dormir: dados.disponivel_para_dormir || dados.disponibilidade_para_dormir,
+      disponivel_aos_sabados: dados.disponvel_aos_sbados || dados.disponível_aos_sábados,
     },
     habilidades: {
-      lava_e_passa_todo_tipo_de_roupa: dados.lava_e_passa_todo_tipo_de_roupa,
-      lava_e_passa_o_basico: dados.lava_e_passa_o_bsico || dados.lava_e_passa_o_básico
-      // Adicionar outras habilidades específicas aqui
+      cozinha_para_crianca: dados.cozinha_pcriana,
+      cursos: dados.cursos,
+      higiene_e_organizacao: dados.higienizaoorganizao_dos_pertences,
+      lava_e_passa_roupas_criancas: dados.lava_e_passa_roupas_crianas,
+      habilidade_com_criancas: dados.habilidade_c_crianas_idades,
     },
     obs: dados.obs,
     referencias_profissionais: dados.referencias_profissionais
@@ -280,12 +285,14 @@ function processarArquivoExcel(arquivo) {
     if (referencias.length > 0) {
       dadosSaida.referencias_profissionais = referencias;
     }
+
+    console.log(`Dados extraídos do arquivo ${arquivo}:`, dadosSaida);
     
     // Agrupar os dados em categorias lógicas
     const dadosAgrupados = agruparDados(dadosSaida);
     
     // Criar pasta de saída se não existir
-    const pastaSaida = path.join(__dirname, 'dados-funcionarios-antigos');
+    const pastaSaida = path.join(__dirname, 'dados-funcionarios');
     if (!fs.existsSync(pastaSaida)) {
       fs.mkdirSync(pastaSaida, { recursive: true });
     }
@@ -325,7 +332,7 @@ function processarArquivos() {
     .filter(item => fs.statSync(item).isDirectory());
   
   // Limita a quantidade de pastas processadas
-  const pastasLimitadas = pastas.slice(0, 20); // limite de pastas
+  const pastasLimitadas = pastas.slice(0, pastas.length); // limite de pastas é o tamanho total do array
   
   console.log(`Total de pastas encontradas: ${pastas.length}`);
   console.log(`Processando ${pastasLimitadas.length} pastas`);
